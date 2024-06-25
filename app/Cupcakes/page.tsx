@@ -22,12 +22,17 @@ function page() {
   const [searchType, setSearchType] = useState<CupcakeCategoryType>("All");
 
   const getCupcakesFromDB = async () => {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/cupcake/get_all`
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/cupcake/get_all`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
 
-    console.log(response.data[0]);
-    setCupcakes(response.data);
+    setCupcakes(await response.json());
   };
 
   useEffect(() => {
