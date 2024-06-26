@@ -15,7 +15,7 @@ const ProductCard = ({ Cupcake }: Props) => {
       addToCart(Cupcake);
       console.log(Cupcake);
       toast.success("Cupcake Added successfully!", {
-        position: "top-right",
+        position: "top-left",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,

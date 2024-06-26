@@ -41,6 +41,18 @@ export default function page() {
 
   const handleContinueToPayment = () => {
     var toastText;
+    if (cartItems.length == 0) {
+      toast.info("Your Cart is Empty, Cannot Proceed", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
 
     for (let key in addressData) {
       if (addressData[key as keyof AddressType] === "") {
@@ -110,7 +122,6 @@ export default function page() {
   useEffect(() => {
     loadAddressFromLocalStorage();
     const cart = initializeCart();
-    // if null then show something else
     if (cart) {
       setCartItems(cart);
     }
@@ -192,7 +203,7 @@ export default function page() {
             </h6>
           </div>
         </div>
-        <div className="flex items-center flex-col sm:flex-row justify-center gap-3 mt-8 text-lg md:text-xl">
+        <div className="flex items-center flex-col sm:flex-frow justify-center gap-3 mt-8 text-lg md:text-xl">
           <button
             onClick={handleContinueToPayment}
             className="text-[#3D0C11] font-semibold bg-[#c9c8aa] group px-6 py-3 my-2 flex justify-between gap-2 items-center hover:bg-[#D14D72] hover:text-white active:bg-[#3D0C11] rounded-full"
