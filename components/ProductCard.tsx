@@ -54,7 +54,7 @@ const ProductCard = ({ Cupcake }: Props) => {
           </span>
           <div className="flex items-center">
             <p className="text-lg font-semibold text-[#3D0C11] cursor-auto my-3">
-              {Cupcake.price}
+              {Cupcake.price}$
             </p>
             <div className="ml-auto">
               <button
