@@ -12,12 +12,15 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
 );
 
 export default function page() {
+  const router = useRouter();
+
   const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
   const [addressData, setAddressData] = useState<AddressType>({
     firstName: "",
@@ -31,6 +34,7 @@ export default function page() {
   const [subTotal, setSubTotal] = useState<number>(0);
   const [totalDeliveryCharge, setTotalDeliveryCharge] =
     useState<number>(0);
+  const [stripePayment, setStripePayment] = useState<boolean>(false);
 
   const handleDeleteItem = (itemId: string) => {
     removeFromCart(itemId);
@@ -83,31 +87,37 @@ export default function page() {
 
     const stripe = await stripePromise;
 
-    const stripeItems = cartItems.map((item) => ({
-      item_id: item.id,
-      quantity: item.quantityInCart,
-    }));
+    if (stripePayment) {
+      const stripeItems = cartItems.map((item) => ({
+        item_id: item.id,
+        quantity: item.quantityInCart,
+      }));
 
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/checkout/create-stripe-checkout-session`,
-        {
-          items: stripeItems,
-          address: addressData,
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/checkout/create-stripe-checkout-session`,
+          {
+            items: stripeItems,
+            address: addressData,
+          }
+        );
+
+        const sessionId = response.data.id;
+
+        const { error } = await stripe!.redirectToCheckout({
+          sessionId: sessionId,
+        });
+
+        if (error) {
+          console.error("Error redirecting to checkout:", error);
         }
-      );
-
-      const sessionId = response.data.id;
-
-      const { error } = await stripe!.redirectToCheckout({
-        sessionId: sessionId,
-      });
-
-      if (error) {
-        console.error("Error redirecting to checkout:", error);
+      } catch (error) {
+        console.error("Error creating checkout session:", error);
       }
-    } catch (error) {
-      console.error("Error creating checkout session:", error);
+    } else {
+      setTimeout(() => {
+        router.push("/Payment_Successfull");
+      }, 1000);
     }
   };
 
@@ -205,7 +215,10 @@ export default function page() {
         </div>
         <div className="flex items-center flex-col sm:flex-frow justify-center gap-3 mt-8 text-lg md:text-xl">
           <button
-            onClick={handleContinueToPayment}
+            onClick={() => {
+              setStripePayment(false);
+              handleContinueToPayment();
+            }}
             className="text-[#3D0C11] font-semibold bg-[#c9c8aa] group px-6 py-3 my-2 flex justify-between gap-2 items-center hover:bg-[#D14D72] hover:text-white active:bg-[#3D0C11] rounded-full"
           >
             <span className="px-2 font-semibold leading-8">
@@ -232,7 +245,10 @@ export default function page() {
             </span>
           </button>
           <button
-            onClick={handleContinueToPayment}
+            onClick={() => {
+              setStripePayment(true);
+              handleContinueToPayment();
+            }}
             className="text-white font-semibold bg-[#D14D72] group px-6 py-3 my-2 flex justify-between gap-2 items-center active:bg-white rounded-full"
           >
             Continue to Payment

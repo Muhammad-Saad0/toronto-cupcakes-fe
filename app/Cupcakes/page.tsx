@@ -16,7 +16,7 @@ function page() {
 
   const [filteredCupcakes, setFilteredCupcakes] = useState<CupcakeType[]>(
     []
-  ); // State to hold filtered cupcakes
+  ); 
 
   const [searchQuery, setSearchQuery] = useState(""); // State to hold the search query
   const [searchType, setSearchType] = useState<CupcakeCategoryType>("All");
