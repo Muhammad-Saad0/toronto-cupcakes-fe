@@ -1,8 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import { clearCart } from "@/utils/cartHelperFuncs";
+import React, { useEffect, useState } from "react";
 import ConfettiExplosion from "react-confetti-explosion";
 
 function page() {
+  useEffect(() => {
+    clearCart();
+  }, []);
+
   return (
     <div className="m-auto font-averia">
       <ConfettiExplosion
