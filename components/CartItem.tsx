@@ -72,7 +72,7 @@ const CartItem: React.FC<CartItemProps> = ({
             </h5>
 
             <h6 className="font-medium text-xl leading-8 text-[#D14D72] max-[550px]:text-center">
-              $ {item.price} per cupcake
+              $ {item.price.toFixed(2)} per cupcake
             </h6>
           </div>
         </div>

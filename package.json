@@ -11,15 +11,16 @@
   "dependencies": {
     "@stripe/stripe-js": "^4.0.0",
     "axios": "^1.7.2",
+    "framer-motion": "^11.2.6",
     "next": "14.2.3",
     "react": "^18",
     "react-confetti-explosion": "^2.1.2",
     "react-dom": "^18",
-    "stripe": "^16.0.0",
-    "framer-motion": "^11.2.6",
     "react-intersection-observer": "^9.10.3",
+    "react-router-dom": "^6.24.0",
     "react-scroll": "^1.9.0",
-    "react-toastify": "^10.0.5"
+    "react-toastify": "^10.0.5",
+    "stripe": "^16.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",
