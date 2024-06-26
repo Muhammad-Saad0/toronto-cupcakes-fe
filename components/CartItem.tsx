@@ -162,7 +162,7 @@ const CartItem: React.FC<CartItemProps> = ({
             </button>
           </div>
           <h6 className="text-[#3D0C11] font-manrope font-bold text-3xl leading-9 w-full max-w-[176px] text-center">
-            {(quantity * item.price).toFixed(2)}
+            ${(quantity * item.price).toFixed(2)}
           </h6>
         </div>
         <button

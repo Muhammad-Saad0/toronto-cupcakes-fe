@@ -8,7 +8,7 @@ function page() {
       <div className="grid grid-cols-1 xl:grid-cols-2 h-fit">
         <div className="relative xl:py-64 xl:px-32 h-[500px] xl:h-auto -z-50">
           <Image
-            src="./assets/employmentPic.jpg"
+            src="/assets/occ5.jpg"
             layout="fill"
             objectFit="cover"
             alt={"Owner of Toronto Cupcakes"}
